@@ -49,7 +49,7 @@ export function ComingSoonSection({ counters }: { counters: Counter[] }) {
           Track your university bus in real time and see its estimated arrival at your counter.
         </p>
         <div className="pointer-events-none mt-3 opacity-60 blur-[1px]">
-          <DhakaMapView counters={counters} selectedId={null} onSelect={() => {}} />
+          <DhakaMapView counters={counters} />
         </div>
       </Card>
 

@@ -13,7 +13,7 @@ export function CountersPreview({ counters }: { counters: Counter[] }) {
         </Link>
       </div>
 
-      <DhakaMapView counters={counters} selectedId={null} onSelect={() => {}} />
+      <DhakaMapView counters={counters} />
 
       <div className="mt-3 grid grid-cols-2 gap-2">
         {counters.slice(0, 4).map((counter) => (

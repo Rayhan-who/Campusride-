@@ -8,12 +8,12 @@ const UNIVERSITY_POSITION = { x: 50, y: 82 };
 
 export function DhakaMapView({
   counters,
-  selectedId,
+  selectedId = null,
   onSelect,
 }: {
   counters: Counter[];
-  selectedId: string | null;
-  onSelect: (id: string) => void;
+  selectedId?: string | null;
+  onSelect?: (id: string) => void;
 }) {
   return (
     <div className="relative overflow-hidden rounded-2xl border border-border bg-[#f3efe6]">
@@ -69,8 +69,11 @@ export function DhakaMapView({
         return (
           <button
             key={counter.id}
-            onClick={() => onSelect(counter.id)}
-            className="absolute -translate-x-1/2 -translate-y-full cursor-pointer"
+            onClick={() => onSelect?.(counter.id)}
+            className={cn(
+              "absolute -translate-x-1/2 -translate-y-full",
+              onSelect ? "cursor-pointer" : "cursor-default",
+            )}
             style={{ left: `${counter.map_x}%`, top: `${counter.map_y}%` }}
             aria-label={counter.name}
           >
