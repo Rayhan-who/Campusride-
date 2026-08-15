@@ -31,7 +31,7 @@ on conflict (id) do nothing;
 -- Routes (5) — one per counter/university pair.
 -- ---------------------------------------------------------------------------
 insert into routes (id, name, description) values
-  ('20000000-0000-0000-0000-000000000001', 'Aftabnagar - Harvard Aftabnagar', 'Sample route connecting Aftabnagar to Harvard Aftabnagar.'),
+  ('20000000-0000-0000-0000-000000000001', 'Dhanmondi - Harvard Aftabnagar', 'Sample route connecting Dhanmondi to Harvard Aftabnagar.'),
   ('20000000-0000-0000-0000-000000000002', 'Badda - Oxford Bashundhara', 'Sample route connecting Badda to Oxford Bashundhara.'),
   ('20000000-0000-0000-0000-000000000003', 'Bashundhara - MIT Badda', 'Sample route connecting Bashundhara to MIT Badda.'),
   ('20000000-0000-0000-0000-000000000004', 'Tejgaon - Stanford Kuratoli', 'Sample route connecting Tejgaon to Stanford Kuratoli.'),
@@ -43,7 +43,7 @@ on conflict (id) do nothing;
 -- Dhaka map illustration rendered by DhakaMapView, north at the top.
 -- ---------------------------------------------------------------------------
 insert into counters (id, name, pickup_location, map_x, map_y, route_id, university_id) values
-  ('30000000-0000-0000-0000-000000000001', 'Aftabnagar Counter', 'Aftabnagar, near main gate', 52, 10, '20000000-0000-0000-0000-000000000001', '60000000-0000-0000-0000-000000000001'),
+  ('30000000-0000-0000-0000-000000000001', 'Dhanmondi Counter', 'Dhanmondi 27, near Star Kabab', 52, 10, '20000000-0000-0000-0000-000000000001', '60000000-0000-0000-0000-000000000001'),
   ('30000000-0000-0000-0000-000000000002', 'Badda Counter', 'Badda Link Road', 34, 27, '20000000-0000-0000-0000-000000000002', '60000000-0000-0000-0000-000000000003'),
   ('30000000-0000-0000-0000-000000000003', 'Bashundhara Counter', 'Bashundhara R/A, Block C', 37, 56, '20000000-0000-0000-0000-000000000003', '60000000-0000-0000-0000-000000000002'),
   ('30000000-0000-0000-0000-000000000004', 'Tejgaon Counter', 'Tejgaon Industrial Area', 24, 46, '20000000-0000-0000-0000-000000000004', '60000000-0000-0000-0000-000000000004'),

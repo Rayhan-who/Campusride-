@@ -41,7 +41,7 @@ on conflict (id) do nothing;
 -- ---------------------------------------------------------------------------
 alter table counters add column if not exists university_id uuid references universities(id) on delete set null;
 
-update routes set name = 'Aftabnagar - Harvard Aftabnagar', description = 'Sample route connecting Aftabnagar to Harvard Aftabnagar.'
+update routes set name = 'Dhanmondi - Harvard Aftabnagar', description = 'Sample route connecting Dhanmondi to Harvard Aftabnagar.'
   where id = '20000000-0000-0000-0000-000000000001';
 update routes set name = 'Badda - Oxford Bashundhara', description = 'Sample route connecting Badda to Oxford Bashundhara.'
   where id = '20000000-0000-0000-0000-000000000002';
@@ -52,7 +52,7 @@ update routes set name = 'Tejgaon - Stanford Kuratoli', description = 'Sample ro
 update routes set name = 'Kuratoli - BUET Tejgaon', description = 'Sample route connecting Kuratoli to BUET Tejgaon.'
   where id = '20000000-0000-0000-0000-000000000005';
 
-update counters set name = 'Aftabnagar Counter', pickup_location = 'Aftabnagar, near main gate', university_id = '60000000-0000-0000-0000-000000000001'
+update counters set name = 'Dhanmondi Counter', pickup_location = 'Dhanmondi 27, near Star Kabab', university_id = '60000000-0000-0000-0000-000000000001'
   where id = '30000000-0000-0000-0000-000000000001';
 update counters set name = 'Badda Counter', pickup_location = 'Badda Link Road', university_id = '60000000-0000-0000-0000-000000000003'
   where id = '30000000-0000-0000-0000-000000000002';

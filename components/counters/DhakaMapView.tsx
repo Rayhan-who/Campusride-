@@ -43,7 +43,7 @@ export function DhakaMapView({
       </svg>
 
       {/* area labels */}
-      <MapLabel x={52} y={4} label="Aftabnagar" />
+      <MapLabel x={52} y={4} label="Dhanmondi" />
       <MapLabel x={30} y={19} label="Badda" />
       <MapLabel x={16} y={40} label="Tejgaon" />
       <MapLabel x={33} y={50} label="Bashundhara" />

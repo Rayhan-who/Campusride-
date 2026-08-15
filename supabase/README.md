@@ -31,6 +31,7 @@ Copy `.env.example` at the project root to `.env.local` and fill in these three 
 
 1. `supabase/migration_002_multi_university.sql` — adds the `universities` and `bus_requests` tables, repoints the 5 counters to the new counter/university pairs, and drops the old Events tables.
 2. `supabase/migration_003_swap_university_pairs.sql` — only needed if you already ran migration 002 before the Tejgaon/Kuratoli and Badda/Bashundhara university pairings were corrected. Safe to skip on a fresh setup, since `seed.sql` already has the corrected pairing.
+3. `supabase/migration_004_rename_aftabnagar_to_dhanmondi.sql` — only needed if you already ran migration 002 before the "Aftabnagar" counter was renamed to "Dhanmondi" (still serves Harvard Aftabnagar). Safe to skip on a fresh setup.
 
 You can paste each file's contents into the SQL editor and click **Run**.
 
