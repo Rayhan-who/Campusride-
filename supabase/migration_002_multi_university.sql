@@ -43,24 +43,24 @@ alter table counters add column if not exists university_id uuid references univ
 
 update routes set name = 'Aftabnagar - Harvard Aftabnagar', description = 'Sample route connecting Aftabnagar to Harvard Aftabnagar.'
   where id = '20000000-0000-0000-0000-000000000001';
-update routes set name = 'Badda - MIT Badda', description = 'Sample route connecting Badda to MIT Badda.'
+update routes set name = 'Badda - Oxford Bashundhara', description = 'Sample route connecting Badda to Oxford Bashundhara.'
   where id = '20000000-0000-0000-0000-000000000002';
-update routes set name = 'Bashundhara - Oxford Bashundhara', description = 'Sample route connecting Bashundhara to Oxford Bashundhara.'
+update routes set name = 'Bashundhara - MIT Badda', description = 'Sample route connecting Bashundhara to MIT Badda.'
   where id = '20000000-0000-0000-0000-000000000003';
-update routes set name = 'Tejgaon - BUET Tejgaon', description = 'Sample route connecting Tejgaon to BUET Tejgaon.'
+update routes set name = 'Tejgaon - Stanford Kuratoli', description = 'Sample route connecting Tejgaon to Stanford Kuratoli.'
   where id = '20000000-0000-0000-0000-000000000004';
-update routes set name = 'Kuratoli - Stanford Kuratoli', description = 'Sample route connecting Kuratoli to Stanford Kuratoli.'
+update routes set name = 'Kuratoli - BUET Tejgaon', description = 'Sample route connecting Kuratoli to BUET Tejgaon.'
   where id = '20000000-0000-0000-0000-000000000005';
 
 update counters set name = 'Aftabnagar Counter', pickup_location = 'Aftabnagar, near main gate', university_id = '60000000-0000-0000-0000-000000000001'
   where id = '30000000-0000-0000-0000-000000000001';
-update counters set name = 'Badda Counter', pickup_location = 'Badda Link Road', university_id = '60000000-0000-0000-0000-000000000002'
+update counters set name = 'Badda Counter', pickup_location = 'Badda Link Road', university_id = '60000000-0000-0000-0000-000000000003'
   where id = '30000000-0000-0000-0000-000000000002';
-update counters set name = 'Bashundhara Counter', pickup_location = 'Bashundhara R/A, Block C', university_id = '60000000-0000-0000-0000-000000000003'
+update counters set name = 'Bashundhara Counter', pickup_location = 'Bashundhara R/A, Block C', university_id = '60000000-0000-0000-0000-000000000002'
   where id = '30000000-0000-0000-0000-000000000003';
-update counters set name = 'Tejgaon Counter', pickup_location = 'Tejgaon Industrial Area', university_id = '60000000-0000-0000-0000-000000000005'
+update counters set name = 'Tejgaon Counter', pickup_location = 'Tejgaon Industrial Area', university_id = '60000000-0000-0000-0000-000000000004'
   where id = '30000000-0000-0000-0000-000000000004';
-update counters set name = 'Kuratoli Counter', pickup_location = 'Kuratoli, Khilkhet', university_id = '60000000-0000-0000-0000-000000000004'
+update counters set name = 'Kuratoli Counter', pickup_location = 'Kuratoli, Khilkhet', university_id = '60000000-0000-0000-0000-000000000005'
   where id = '30000000-0000-0000-0000-000000000005';
 
 -- ---------------------------------------------------------------------------

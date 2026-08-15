@@ -27,7 +27,10 @@ Copy `.env.example` at the project root to `.env.local` and fill in these three 
 3. `supabase/rls_policies.sql` — enables Row Level Security and creates all policies. **The app will not work correctly (or securely) without this.**
 4. `supabase/seed.sql` — inserts demo buses, universities, routes, counters, and schedules so the app has data to show immediately.
 
-**Already ran those on an earlier version of CampusRide?** Don't re-run them (they'll error on tables that already exist). Instead run `supabase/migration_002_multi_university.sql` once — it adds the `universities` and `bus_requests` tables, repoints the 5 counters to the new counter/university pairs, and drops the old Events tables.
+**Already ran those on an earlier version of CampusRide?** Don't re-run them (they'll error on tables that already exist). Instead run, in order:
+
+1. `supabase/migration_002_multi_university.sql` — adds the `universities` and `bus_requests` tables, repoints the 5 counters to the new counter/university pairs, and drops the old Events tables.
+2. `supabase/migration_003_swap_university_pairs.sql` — only needed if you already ran migration 002 before the Tejgaon/Kuratoli and Badda/Bashundhara university pairings were corrected. Safe to skip on a fresh setup, since `seed.sql` already has the corrected pairing.
 
 You can paste each file's contents into the SQL editor and click **Run**.
 

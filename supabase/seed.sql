@@ -32,10 +32,10 @@ on conflict (id) do nothing;
 -- ---------------------------------------------------------------------------
 insert into routes (id, name, description) values
   ('20000000-0000-0000-0000-000000000001', 'Aftabnagar - Harvard Aftabnagar', 'Sample route connecting Aftabnagar to Harvard Aftabnagar.'),
-  ('20000000-0000-0000-0000-000000000002', 'Badda - MIT Badda', 'Sample route connecting Badda to MIT Badda.'),
-  ('20000000-0000-0000-0000-000000000003', 'Bashundhara - Oxford Bashundhara', 'Sample route connecting Bashundhara to Oxford Bashundhara.'),
-  ('20000000-0000-0000-0000-000000000004', 'Tejgaon - BUET Tejgaon', 'Sample route connecting Tejgaon to BUET Tejgaon.'),
-  ('20000000-0000-0000-0000-000000000005', 'Kuratoli - Stanford Kuratoli', 'Sample route connecting Kuratoli to Stanford Kuratoli.')
+  ('20000000-0000-0000-0000-000000000002', 'Badda - Oxford Bashundhara', 'Sample route connecting Badda to Oxford Bashundhara.'),
+  ('20000000-0000-0000-0000-000000000003', 'Bashundhara - MIT Badda', 'Sample route connecting Bashundhara to MIT Badda.'),
+  ('20000000-0000-0000-0000-000000000004', 'Tejgaon - Stanford Kuratoli', 'Sample route connecting Tejgaon to Stanford Kuratoli.'),
+  ('20000000-0000-0000-0000-000000000005', 'Kuratoli - BUET Tejgaon', 'Sample route connecting Kuratoli to BUET Tejgaon.')
 on conflict (id) do nothing;
 
 -- ---------------------------------------------------------------------------
@@ -44,10 +44,10 @@ on conflict (id) do nothing;
 -- ---------------------------------------------------------------------------
 insert into counters (id, name, pickup_location, map_x, map_y, route_id, university_id) values
   ('30000000-0000-0000-0000-000000000001', 'Aftabnagar Counter', 'Aftabnagar, near main gate', 52, 10, '20000000-0000-0000-0000-000000000001', '60000000-0000-0000-0000-000000000001'),
-  ('30000000-0000-0000-0000-000000000002', 'Badda Counter', 'Badda Link Road', 34, 27, '20000000-0000-0000-0000-000000000002', '60000000-0000-0000-0000-000000000002'),
-  ('30000000-0000-0000-0000-000000000003', 'Bashundhara Counter', 'Bashundhara R/A, Block C', 37, 56, '20000000-0000-0000-0000-000000000003', '60000000-0000-0000-0000-000000000003'),
-  ('30000000-0000-0000-0000-000000000004', 'Tejgaon Counter', 'Tejgaon Industrial Area', 24, 46, '20000000-0000-0000-0000-000000000004', '60000000-0000-0000-0000-000000000005'),
-  ('30000000-0000-0000-0000-000000000005', 'Kuratoli Counter', 'Kuratoli, Khilkhet', 66, 58, '20000000-0000-0000-0000-000000000005', '60000000-0000-0000-0000-000000000004')
+  ('30000000-0000-0000-0000-000000000002', 'Badda Counter', 'Badda Link Road', 34, 27, '20000000-0000-0000-0000-000000000002', '60000000-0000-0000-0000-000000000003'),
+  ('30000000-0000-0000-0000-000000000003', 'Bashundhara Counter', 'Bashundhara R/A, Block C', 37, 56, '20000000-0000-0000-0000-000000000003', '60000000-0000-0000-0000-000000000002'),
+  ('30000000-0000-0000-0000-000000000004', 'Tejgaon Counter', 'Tejgaon Industrial Area', 24, 46, '20000000-0000-0000-0000-000000000004', '60000000-0000-0000-0000-000000000004'),
+  ('30000000-0000-0000-0000-000000000005', 'Kuratoli Counter', 'Kuratoli, Khilkhet', 66, 58, '20000000-0000-0000-0000-000000000005', '60000000-0000-0000-0000-000000000005')
 on conflict (id) do nothing;
 
 -- ---------------------------------------------------------------------------
