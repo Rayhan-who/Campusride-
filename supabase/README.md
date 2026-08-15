@@ -20,12 +20,14 @@ Copy `.env.example` at the project root to `.env.local` and fill in these three 
 
 ## 3. Run the SQL scripts
 
-In the Supabase dashboard, open **SQL Editor → New query**, and run the following files **in this exact order**, each as its own run:
+**Brand-new project?** In the Supabase dashboard, open **SQL Editor → New query**, and run the following files **in this exact order**, each as its own run:
 
 1. `supabase/schema.sql` — creates all tables, constraints, and indexes.
-2. `supabase/functions.sql` — creates the `handle_new_user` trigger and the `create_bus_booking` / `create_event_booking` / `cancel_booking` / `cancel_event_booking` RPC functions.
+2. `supabase/functions.sql` — creates the `handle_new_user` trigger and the `create_bus_booking` / `cancel_booking` RPC functions.
 3. `supabase/rls_policies.sql` — enables Row Level Security and creates all policies. **The app will not work correctly (or securely) without this.**
-4. `supabase/seed.sql` — inserts demo buses, routes, counters, schedules, and events so the app has data to show immediately.
+4. `supabase/seed.sql` — inserts demo buses, universities, routes, counters, and schedules so the app has data to show immediately.
+
+**Already ran those on an earlier version of CampusRide?** Don't re-run them (they'll error on tables that already exist). Instead run `supabase/migration_002_multi_university.sql` once — it adds the `universities` and `bus_requests` tables, repoints the 5 counters to the new counter/university pairs, and drops the old Events tables.
 
 You can paste each file's contents into the SQL editor and click **Run**.
 
@@ -44,9 +46,10 @@ npm install
 npm run dev
 ```
 
-Visit `http://localhost:3000`, register a student account, and you should see the seeded buses/routes/counters/schedules/events throughout the app.
+Visit `http://localhost:3000`, register a student account, and you should see the seeded buses/universities/routes/counters/schedules throughout the app.
 
 ## Notes
 
 - All reference data seeded by `seed.sql` is marked `is_demo = true` and is clearly labeled "Sample data" in the UI — it is not real university routing/scheduling information.
-- Every booking write (create or cancel) goes through a `SECURITY DEFINER` Postgres function (see `functions.sql`), not a direct table insert. This is what makes it safe for `rls_policies.sql` to grant no client-side insert/update policy on `bookings` / `event_bookings` — see the comments in that file for details.
+- Every booking write (create or cancel) goes through a `SECURITY DEFINER` Postgres function (see `functions.sql`), not a direct table insert. This is what makes it safe for `rls_policies.sql` to grant no client-side insert/update policy on `bookings` — see the comments in that file for details.
+- `bus_requests` (the University Bus Request system) has no such RPC since there's no capacity to check atomically — a student can insert/read only their own rows. There is also no admin UI in this version, so moving a request from **Pending** to **Approved**/**Rejected** is done by editing the row directly in the Supabase Table Editor.

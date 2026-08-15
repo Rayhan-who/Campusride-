@@ -1,10 +1,8 @@
 "use client";
 
-import { MapPin, School } from "lucide-react";
+import { MapPin } from "lucide-react";
 import { cn } from "@/lib/utils/cn";
 import type { Counter } from "@/types/domain";
-
-const UNIVERSITY_POSITION = { x: 50, y: 82 };
 
 export function DhakaMapView({
   counters,
@@ -45,24 +43,11 @@ export function DhakaMapView({
       </svg>
 
       {/* area labels */}
-      <MapLabel x={52} y={4} label="Uttara" />
-      <MapLabel x={30} y={19} label="Mirpur" />
-      <MapLabel x={16} y={40} label="Mohammadpur" />
-      <MapLabel x={33} y={50} label="Dhanmondi" />
-      <MapLabel x={70} y={52} label="Motijheel" />
-
-      {/* university marker */}
-      <div
-        className="absolute flex -translate-x-1/2 -translate-y-full flex-col items-center"
-        style={{ left: `${UNIVERSITY_POSITION.x}%`, top: `${UNIVERSITY_POSITION.y}%` }}
-      >
-        <span className="flex h-8 w-8 items-center justify-center rounded-full bg-maroon text-white shadow">
-          <School size={16} />
-        </span>
-        <span className="mt-0.5 rounded bg-white/90 px-1.5 py-0.5 text-[10px] font-semibold text-maroon shadow-sm">
-          University
-        </span>
-      </div>
+      <MapLabel x={52} y={4} label="Aftabnagar" />
+      <MapLabel x={30} y={19} label="Badda" />
+      <MapLabel x={16} y={40} label="Tejgaon" />
+      <MapLabel x={33} y={50} label="Bashundhara" />
+      <MapLabel x={70} y={52} label="Kuratoli" />
 
       {counters.map((counter) => {
         const active = counter.id === selectedId;
@@ -76,6 +61,7 @@ export function DhakaMapView({
             )}
             style={{ left: `${counter.map_x}%`, top: `${counter.map_y}%` }}
             aria-label={counter.name}
+            title={counter.university ? `${counter.name} → ${counter.university.name}` : counter.name}
           >
             <MapPin
               size={active ? 30 : 24}

@@ -1,4 +1,4 @@
-import { MapPin, Bus } from "lucide-react";
+import { MapPin, Bus, GraduationCap } from "lucide-react";
 import { ButtonLink } from "@/components/shared/Button";
 import { Card } from "@/components/shared/Card";
 import { DemandBadge } from "./DemandBadge";
@@ -37,6 +37,11 @@ export function CounterCard({
           <p className="mt-0.5 flex items-center gap-1 text-xs text-text-muted">
             <MapPin size={12} /> {counter.pickup_location}
           </p>
+          {counter.university && (
+            <p className="mt-0.5 flex items-center gap-1 text-xs font-medium text-maroon">
+              <GraduationCap size={12} /> {counter.university.name}
+            </p>
+          )}
         </div>
         <DemandBadge level={demandLevel} count={demandCount} />
       </div>

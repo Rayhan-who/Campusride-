@@ -1,8 +1,8 @@
 import Link from "next/link";
-import { BookingListItem, type UnifiedBooking } from "@/components/bookings/BookingListItem";
+import { BookingListItem, type BookingSummary } from "@/components/bookings/BookingListItem";
 import { ButtonLink } from "@/components/shared/Button";
 
-export function MyBookingsPreview({ bookings }: { bookings: UnifiedBooking[] }) {
+export function MyBookingsPreview({ bookings }: { bookings: BookingSummary[] }) {
   return (
     <section>
       <div className="mb-3 flex items-center justify-between">
@@ -22,7 +22,7 @@ export function MyBookingsPreview({ bookings }: { bookings: UnifiedBooking[] }) 
       ) : (
         <div className="flex flex-col gap-3">
           {bookings.slice(0, 2).map((booking) => (
-            <BookingListItem key={`${booking.kind}-${booking.id}`} booking={booking} />
+            <BookingListItem key={booking.id} booking={booking} />
           ))}
         </div>
       )}

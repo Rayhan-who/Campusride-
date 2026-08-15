@@ -3,15 +3,9 @@
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/shared/Button";
-import { cancelBookingAction, cancelEventBookingAction } from "@/lib/data/bookings";
+import { cancelBookingAction } from "@/lib/data/bookings";
 
-export function CancelBookingButton({
-  bookingId,
-  kind,
-}: {
-  bookingId: string;
-  kind: "bus" | "event";
-}) {
+export function CancelBookingButton({ bookingId }: { bookingId: string }) {
   const [error, setError] = useState<string | null>(null);
   const [confirming, setConfirming] = useState(false);
   const [pending, startTransition] = useTransition();
@@ -20,8 +14,7 @@ export function CancelBookingButton({
   function handleCancel() {
     setError(null);
     startTransition(async () => {
-      const action = kind === "bus" ? cancelBookingAction : cancelEventBookingAction;
-      const result = await action(bookingId);
+      const result = await cancelBookingAction(bookingId);
       if (result.error) {
         setError(result.error);
         return;

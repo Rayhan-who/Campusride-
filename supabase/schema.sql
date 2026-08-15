@@ -30,6 +30,17 @@ create table if not exists buses (
 );
 
 -- ---------------------------------------------------------------------------
+-- universities: each counter's destination campus. CampusRide serves several
+-- partner universities, one per counter.
+-- ---------------------------------------------------------------------------
+create table if not exists universities (
+  id uuid primary key default gen_random_uuid(),
+  name text not null unique,
+  is_demo boolean not null default true,
+  created_at timestamptz not null default now()
+);
+
+-- ---------------------------------------------------------------------------
 -- routes
 -- ---------------------------------------------------------------------------
 create table if not exists routes (
@@ -51,6 +62,7 @@ create table if not exists counters (
   map_x numeric not null check (map_x >= 0 and map_x <= 100),
   map_y numeric not null check (map_y >= 0 and map_y <= 100),
   route_id uuid references routes(id) on delete set null,
+  university_id uuid references universities(id) on delete set null,
   is_demo boolean not null default true,
   created_at timestamptz not null default now()
 );
@@ -104,46 +116,30 @@ create unique index if not exists uq_booking_user_schedule_date_active
   where status in ('Confirmed', 'Pending');
 
 -- ---------------------------------------------------------------------------
--- events (university event transportation)
+-- bus_requests: university authorities request buses for events or other
+-- purposes. No capacity/atomicity concerns here (unlike bookings), so this
+-- is a plain table with owner-scoped RLS rather than a RPC-only table.
+-- Status changes (Approved/Rejected) are made by CampusRide staff directly
+-- in the Supabase dashboard — this version has no admin interface.
 -- ---------------------------------------------------------------------------
-create table if not exists events (
+create table if not exists bus_requests (
   id uuid primary key default gen_random_uuid(),
-  name text not null,
-  description text,
-  event_date date not null,
-  destination text not null,
-  departure_time time,
-  return_time time,
-  total_seats int not null check (total_seats > 0),
-  is_demo boolean not null default true,
-  created_at timestamptz not null default now()
-);
-
--- ---------------------------------------------------------------------------
--- event_bookings
--- ---------------------------------------------------------------------------
-create table if not exists event_bookings (
-  id uuid primary key default gen_random_uuid(),
-  booking_code text not null unique,
+  request_code text not null unique
+    default ('CR-REQ-' || upper(substr(replace(gen_random_uuid()::text, '-', ''), 1, 6))),
   user_id uuid not null references profiles(id) on delete cascade,
-  event_id uuid not null references events(id) on delete cascade,
-  seats_requested int not null check (seats_requested > 0),
-  seats_allocated int not null check (seats_allocated >= 0),
-  status text not null default 'Confirmed'
-    check (status in ('Confirmed', 'Pending', 'Cancelled', 'Completed')),
+  university_name text not null,
+  buses_required int not null check (buses_required > 0),
+  required_date date not null,
+  required_time time not null,
+  purpose text not null,
+  pickup_location text not null,
+  notes text,
+  status text not null default 'Pending' check (status in ('Pending', 'Approved', 'Rejected')),
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
 
-create index if not exists idx_event_bookings_event
-  on event_bookings(event_id)
-  where status in ('Confirmed', 'Pending');
-
-create index if not exists idx_event_bookings_user on event_bookings(user_id);
-
-create unique index if not exists uq_event_booking_user_event_active
-  on event_bookings(user_id, event_id)
-  where status in ('Confirmed', 'Pending');
+create index if not exists idx_bus_requests_user on bus_requests(user_id);
 
 -- ---------------------------------------------------------------------------
 -- notifications
@@ -153,8 +149,7 @@ create table if not exists notifications (
   user_id uuid not null references profiles(id) on delete cascade,
   type text not null check (type in (
     'booking_confirmed', 'seat_updated', 'schedule_changed',
-    'counter_changed', 'event_announced', 'event_booking_confirmed',
-    'cancellation'
+    'counter_changed', 'cancellation', 'bus_request_submitted'
   )),
   message text not null,
   is_read boolean not null default false,

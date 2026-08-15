@@ -4,7 +4,7 @@ import { getScheduleById, todayIso } from "@/lib/data/schedules";
 import { SeatSelectStep } from "@/components/booking/SeatSelectStep";
 import { Card } from "@/components/shared/Card";
 import { DemoDataBadge } from "@/components/shared/DemoDataBadge";
-import { formatDateFull, formatTime } from "@/lib/utils/format";
+import { formatDateFull, formatTime, routeLabel } from "@/lib/utils/format";
 
 export default async function BookSchedulePage({
   params,
@@ -34,9 +34,7 @@ export default async function BookSchedulePage({
           </span>
           <div>
             <p className="font-semibold text-text">{schedule.bus.bus_number}</p>
-            <p className="text-sm text-text-muted">
-              {schedule.counter.name.replace(" Counter", "")} → University
-            </p>
+            <p className="text-sm text-text-muted">{routeLabel(schedule.counter)}</p>
           </div>
         </div>
 

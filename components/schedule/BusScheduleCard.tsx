@@ -2,7 +2,7 @@ import { Bus, MapPin } from "lucide-react";
 import { ButtonLink } from "@/components/shared/Button";
 import { Card } from "@/components/shared/Card";
 import { SeatCapacityBar } from "./SeatCapacityBar";
-import { formatTime } from "@/lib/utils/format";
+import { formatTime, routeLabel } from "@/lib/utils/format";
 import type { ScheduleWithDetails } from "@/types/domain";
 
 export function BusScheduleCard({
@@ -24,9 +24,7 @@ export function BusScheduleCard({
             </span>
             <span className="text-sm font-semibold text-text">{schedule.bus.bus_number}</span>
           </div>
-          <p className="mt-2 text-base font-medium text-text">
-            {schedule.counter.name.replace(" Counter", "")} → University
-          </p>
+          <p className="mt-2 text-base font-medium text-text">{routeLabel(schedule.counter)}</p>
           <p className="mt-0.5 flex items-center gap-1 text-xs text-text-muted">
             <MapPin size={12} /> Counter: {schedule.counter.name}
           </p>

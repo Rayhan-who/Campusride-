@@ -100,65 +100,7 @@ end;
 $$;
 
 -- ---------------------------------------------------------------------------
--- create_event_booking: same pattern, against events.total_seats.
--- ---------------------------------------------------------------------------
-create or replace function create_event_booking(
-  p_event_id uuid,
-  p_seats int
-) returns event_bookings
-language plpgsql
-security definer
-set search_path = public
-as $$
-declare
-  v_capacity int;
-  v_booked int;
-  v_available int;
-  v_code text;
-  v_row event_bookings;
-begin
-  if auth.uid() is null then
-    raise exception 'Not authenticated';
-  end if;
-
-  if p_seats <= 0 then
-    raise exception 'Seats requested must be positive';
-  end if;
-
-  select total_seats into v_capacity from events where id = p_event_id for update;
-  if not found then
-    raise exception 'Event not found';
-  end if;
-
-  select coalesce(sum(seats_allocated), 0) into v_booked
-  from event_bookings
-  where event_id = p_event_id
-    and status in ('Confirmed', 'Pending');
-
-  v_available := v_capacity - v_booked;
-  if v_available < p_seats then
-    raise exception 'Only % seat(s) available for this event', v_available;
-  end if;
-
-  v_code := 'CR-' || upper(substr(replace(gen_random_uuid()::text, '-', ''), 1, 6));
-
-  insert into event_bookings (booking_code, user_id, event_id, seats_requested, seats_allocated, status)
-  values (v_code, auth.uid(), p_event_id, p_seats, p_seats, 'Confirmed')
-  returning * into v_row;
-
-  insert into notifications (user_id, type, message)
-  values (
-    auth.uid(),
-    'event_booking_confirmed',
-    'Your event booking ' || v_code || ' is confirmed.'
-  );
-
-  return v_row;
-end;
-$$;
-
--- ---------------------------------------------------------------------------
--- cancel_booking / cancel_event_booking: owner-only cancellation. Capacity
+-- cancel_booking: owner-only cancellation. Capacity
 -- is freed automatically since availability is always derived by summing
 -- active rows — no separate "release seats" bookkeeping needed.
 -- ---------------------------------------------------------------------------
@@ -184,33 +126,6 @@ begin
 
   insert into notifications (user_id, type, message)
   values (auth.uid(), 'cancellation', 'Booking ' || v_row.booking_code || ' was cancelled.');
-
-  return v_row;
-end;
-$$;
-
-create or replace function cancel_event_booking(p_booking_id uuid)
-returns event_bookings
-language plpgsql
-security definer
-set search_path = public
-as $$
-declare
-  v_row event_bookings;
-begin
-  update event_bookings
-  set status = 'Cancelled', updated_at = now()
-  where id = p_booking_id
-    and user_id = auth.uid()
-    and status in ('Confirmed', 'Pending')
-  returning * into v_row;
-
-  if not found then
-    raise exception 'Booking not found or cannot be cancelled';
-  end if;
-
-  insert into notifications (user_id, type, message)
-  values (auth.uid(), 'cancellation', 'Event booking ' || v_row.booking_code || ' was cancelled.');
 
   return v_row;
 end;

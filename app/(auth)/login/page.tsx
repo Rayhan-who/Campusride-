@@ -1,52 +1,28 @@
-"use client";
-
-import { useActionState } from "react";
 import Link from "next/link";
-import { login, type AuthActionState } from "../actions";
-import { Field } from "@/components/shared/Input";
-import { Button } from "@/components/shared/Button";
+import { CircleCheck } from "lucide-react";
 import { Card } from "@/components/shared/Card";
+import { LoginForm } from "./LoginForm";
 
-const initialState: AuthActionState = { error: null };
-
-export default function LoginPage() {
-  const [state, formAction, pending] = useActionState(login, initialState);
+export default async function LoginPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ registered?: string }>;
+}) {
+  const { registered } = await searchParams;
 
   return (
     <Card className="p-6">
       <h1 className="mb-1 text-lg font-semibold text-text">Welcome back</h1>
-      <p className="mb-6 text-sm text-text-muted">
-        Log in to book your university bus.
-      </p>
+      <p className="mb-6 text-sm text-text-muted">Log in to book your university bus.</p>
 
-      <form action={formAction} className="flex flex-col gap-4">
-        <Field
-          id="universityEmail"
-          name="universityEmail"
-          label="University email"
-          type="email"
-          placeholder="you@university.edu"
-          required
-        />
-        <Field
-          id="password"
-          name="password"
-          label="Password"
-          type="password"
-          placeholder="••••••••"
-          required
-        />
+      {registered === "1" && (
+        <div className="mb-4 flex items-start gap-2 rounded-lg bg-success-bg px-3 py-2.5 text-sm text-success">
+          <CircleCheck size={16} className="mt-0.5 shrink-0" />
+          <span>Account created successfully. Please log in to continue.</span>
+        </div>
+      )}
 
-        {state.error && (
-          <p className="rounded-lg bg-danger-bg px-3 py-2 text-sm text-danger">
-            {state.error}
-          </p>
-        )}
-
-        <Button type="submit" size="lg" disabled={pending} className="mt-2 w-full">
-          {pending ? "Logging in..." : "Log In"}
-        </Button>
-      </form>
+      <LoginForm />
 
       <p className="mt-6 text-center text-sm text-text-muted">
         New to CampusRide?{" "}

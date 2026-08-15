@@ -72,7 +72,10 @@ export async function register(
     return { error: error.message };
   }
 
-  redirect("/");
+  // Signing up (with email confirmation disabled) also starts a session —
+  // sign it back out so the student has to log in manually, per the intended flow.
+  await supabase.auth.signOut();
+  redirect("/login?registered=1");
 }
 
 export async function logout() {

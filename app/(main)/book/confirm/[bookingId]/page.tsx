@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import { getBookingById } from "@/lib/data/bookings";
 import { getScheduleById } from "@/lib/data/schedules";
 import { BookingConfirmation } from "@/components/booking/BookingConfirmation";
-import { formatDateFull, formatTime } from "@/lib/utils/format";
+import { formatDateFull, formatTime, routeLabel } from "@/lib/utils/format";
 
 export default async function BookingConfirmPage({
   params,
@@ -26,10 +26,7 @@ export default async function BookingConfirmPage({
         remainingSeats={remainingSeats}
         detailRows={[
           { label: "Bus", value: schedule.bus.bus_number },
-          {
-            label: "Route",
-            value: `${schedule.counter.name.replace(" Counter", "")} → University`,
-          },
+          { label: "Route", value: routeLabel(schedule.counter) },
           { label: "Counter", value: schedule.counter.name },
           { label: "Date", value: formatDateFull(booking.travel_date) },
           { label: "Departure", value: formatTime(schedule.departure_time) },

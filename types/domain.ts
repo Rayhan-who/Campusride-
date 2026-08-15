@@ -1,13 +1,14 @@
 export type BookingStatus = "Confirmed" | "Pending" | "Cancelled" | "Completed";
 
+export type RequestStatus = "Pending" | "Approved" | "Rejected";
+
 export type NotificationType =
   | "booking_confirmed"
   | "seat_updated"
   | "schedule_changed"
   | "counter_changed"
-  | "event_announced"
-  | "event_booking_confirmed"
-  | "cancellation";
+  | "cancellation"
+  | "bus_request_submitted";
 
 export type DemandLevel = "Low" | "Medium" | "High" | "Very High";
 
@@ -29,6 +30,12 @@ export interface Bus {
   capacity: number;
 }
 
+export interface University {
+  id: string;
+  name: string;
+  is_demo: boolean;
+}
+
 export interface Route {
   id: string;
   name: string;
@@ -43,6 +50,8 @@ export interface Counter {
   map_x: number;
   map_y: number;
   route_id: string | null;
+  university_id: string | null;
+  university: University | null;
   is_demo: boolean;
 }
 
@@ -81,35 +90,19 @@ export interface BookingWithSchedule extends Booking {
   schedule: ScheduleWithDetails;
 }
 
-export interface EventItem {
+export interface BusRequest {
   id: string;
-  name: string;
-  description: string | null;
-  event_date: string;
-  destination: string;
-  departure_time: string | null;
-  return_time: string | null;
-  total_seats: number;
-  is_demo: boolean;
-}
-
-export interface EventWithAvailability extends EventItem {
-  available_seats: number;
-}
-
-export interface EventBooking {
-  id: string;
-  booking_code: string;
+  request_code: string;
   user_id: string;
-  event_id: string;
-  seats_requested: number;
-  seats_allocated: number;
-  status: BookingStatus;
+  university_name: string;
+  buses_required: number;
+  required_date: string;
+  required_time: string;
+  purpose: string;
+  pickup_location: string;
+  notes: string | null;
+  status: RequestStatus;
   created_at: string;
-}
-
-export interface EventBookingWithEvent extends EventBooking {
-  event: EventItem;
 }
 
 export interface Notification {

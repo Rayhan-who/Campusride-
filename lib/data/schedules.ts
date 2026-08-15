@@ -40,7 +40,7 @@ export async function getSchedulesWithAvailability(
   const supabase = await createClient();
   const { data: schedules, error } = await supabase
     .from("schedules")
-    .select("*, bus:buses(*), route:routes(*), counter:counters(*)")
+    .select("*, bus:buses(*), route:routes(*), counter:counters(*, university:universities(*))")
     .order("departure_time");
 
   if (error || !schedules) return [];
@@ -55,7 +55,7 @@ export async function getScheduleById(
   const supabase = await createClient();
   const { data: schedule, error } = await supabase
     .from("schedules")
-    .select("*, bus:buses(*), route:routes(*), counter:counters(*)")
+    .select("*, bus:buses(*), route:routes(*), counter:counters(*, university:universities(*))")
     .eq("id", scheduleId)
     .single();
 
@@ -72,7 +72,7 @@ export async function getSchedulesByCounter(
   const supabase = await createClient();
   const { data: schedules, error } = await supabase
     .from("schedules")
-    .select("*, bus:buses(*), route:routes(*), counter:counters(*)")
+    .select("*, bus:buses(*), route:routes(*), counter:counters(*, university:universities(*))")
     .eq("counter_id", counterId)
     .order("departure_time");
 

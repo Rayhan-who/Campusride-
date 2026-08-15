@@ -4,7 +4,10 @@ import type { Counter, CounterDemand } from "@/types/domain";
 
 export async function getCounters(): Promise<Counter[]> {
   const supabase = await createClient();
-  const { data, error } = await supabase.from("counters").select("*").order("name");
+  const { data, error } = await supabase
+    .from("counters")
+    .select("*, university:universities(*)")
+    .order("name");
   if (error || !data) return [];
   return data;
 }
@@ -13,7 +16,7 @@ export async function getCounterById(counterId: string): Promise<Counter | null>
   const supabase = await createClient();
   const { data, error } = await supabase
     .from("counters")
-    .select("*")
+    .select("*, university:universities(*)")
     .eq("id", counterId)
     .single();
   if (error || !data) return null;

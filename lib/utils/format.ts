@@ -1,3 +1,10 @@
+import type { Counter } from "@/types/domain";
+
+export function routeLabel(counter: Counter): string {
+  const area = counter.name.replace(" Counter", "");
+  return `${area} → ${counter.university?.name ?? "University"}`;
+}
+
 export function formatTime(time: string | null): string {
   if (!time) return "—";
   const [hStr, mStr] = time.split(":");

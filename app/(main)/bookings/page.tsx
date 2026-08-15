@@ -1,6 +1,7 @@
 import Link from "next/link";
-import { getMyBookings, getMyEventBookings } from "@/lib/data/bookings";
-import { BookingListItem, type UnifiedBooking } from "@/components/bookings/BookingListItem";
+import { getMyBookings } from "@/lib/data/bookings";
+import { BookingListItem, type BookingSummary } from "@/components/bookings/BookingListItem";
+import { routeLabel } from "@/lib/utils/format";
 import { cn } from "@/lib/utils/cn";
 import { todayIso } from "@/lib/data/schedules";
 
@@ -12,44 +13,26 @@ export default async function BookingsPage({
   const { tab } = await searchParams;
   const activeTab = tab === "past" ? "past" : "upcoming";
 
-  const [busBookings, eventBookings] = await Promise.all([
-    getMyBookings(),
-    getMyEventBookings(),
-  ]);
-
+  const bookings = await getMyBookings();
   const today = todayIso();
 
-  const unified: UnifiedBooking[] = [
-    ...busBookings.map((b): UnifiedBooking => ({
-      id: b.id,
-      kind: "bus",
-      title: b.schedule.bus.bus_number,
-      subtitle: `${b.schedule.counter.name.replace(" Counter", "")} → University`,
-      date: b.travel_date,
-      seats: b.seats_allocated,
-      status: b.status,
-      bookingCode: b.booking_code,
-      detailHref: `/bookings/${b.id}`,
-    })),
-    ...eventBookings.map((b): UnifiedBooking => ({
-      id: b.id,
-      kind: "event",
-      title: b.event.name,
-      subtitle: b.event.destination,
-      date: b.event.event_date,
-      seats: b.seats_allocated,
-      status: b.status,
-      bookingCode: b.booking_code,
-      detailHref: `/bookings/${b.id}?type=event`,
-    })),
-  ];
+  const summaries: BookingSummary[] = bookings.map((b) => ({
+    id: b.id,
+    title: b.schedule.bus.bus_number,
+    subtitle: routeLabel(b.schedule.counter),
+    date: b.travel_date,
+    seats: b.seats_allocated,
+    status: b.status,
+    bookingCode: b.booking_code,
+    detailHref: `/bookings/${b.id}`,
+  }));
 
-  const upcoming = unified
+  const upcoming = summaries
     .filter((b) => (b.status === "Confirmed" || b.status === "Pending") && b.date >= today)
     .sort((a, b) => a.date.localeCompare(b.date));
 
-  const past = unified
-    .filter((b) => !(( b.status === "Confirmed" || b.status === "Pending") && b.date >= today))
+  const past = summaries
+    .filter((b) => !((b.status === "Confirmed" || b.status === "Pending") && b.date >= today))
     .sort((a, b) => b.date.localeCompare(a.date));
 
   const list = activeTab === "upcoming" ? upcoming : past;
@@ -70,13 +53,13 @@ export default async function BookingsPage({
       {list.length === 0 ? (
         <p className="py-10 text-center text-sm text-text-muted">
           {activeTab === "upcoming"
-            ? "No upcoming bookings yet. Book a bus or event to see it here."
+            ? "No upcoming bookings yet. Book a bus to see it here."
             : "No past bookings yet."}
         </p>
       ) : (
         <div className="flex flex-col gap-3">
           {list.map((booking) => (
-            <BookingListItem key={`${booking.kind}-${booking.id}`} booking={booking} />
+            <BookingListItem key={booking.id} booking={booking} />
           ))}
         </div>
       )}
